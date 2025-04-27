@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,24 +27,7 @@ public class CityController {
 	
 	@Autowired
 	private CityService service;
-	
-	/*
-	@GetMapping
-	public ResponseEntity<Page<CityDTO>> findAll(
-			@RequestParam(value = "page", defaultValue = "0") int page,
-			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
-			@RequestParam(value = "direction", defaultValue = "ASC") String direction,
-			@RequestParam(value = "orderBy", defaultValue = "name") String orderBy
-			){
-		
-		
-		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		
-		Page<CityDTO> list = service.findAllPaged(pageRequest);
-		return ResponseEntity.ok().body(list);
-	}
-	*/
-	
+
 	
 	@GetMapping
 	public ResponseEntity<List<CityDTO>> findAll(){
@@ -60,7 +42,7 @@ public class CityController {
 		return ResponseEntity.ok().body(dto);
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@PostMapping
 	public ResponseEntity<CityDTO> insert(@Valid @RequestBody CityDTO dto){
 		dto = service.insert(dto);

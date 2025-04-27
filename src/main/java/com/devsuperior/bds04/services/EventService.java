@@ -11,7 +11,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.devsuperior.bds04.dto.EventDTO;
+import com.devsuperior.bds04.entities.City;
 import com.devsuperior.bds04.entities.Event;
+import com.devsuperior.bds04.repositories.CityRepository;
 import com.devsuperior.bds04.repositories.EventRepository;
 import com.devsuperior.bds04.services.exceptions.DatabaseException;
 import com.devsuperior.bds04.services.exceptions.ResourceNotFoundException;
@@ -21,6 +23,10 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class EventService {
+	
+	@Autowired
+	private CityRepository cityRepository;
+	
 	@Autowired
 	private EventRepository repository;
 	
@@ -47,10 +53,18 @@ public class EventService {
 	
 	@Transactional
 	public EventDTO insert(EventDTO dto) {
-		Event category = new Event();
-		category.setName(dto.getName());
-		category = repository.save(category);
-		return new EventDTO(category);
+		Event entity = new Event();
+		entity.setName(dto.getName());
+		entity.setDate(dto.getDate());
+		entity.setUrl(dto.getUrl());
+
+		City city = cityRepository.findById(dto.getCityId())
+			.orElseThrow(() -> new ResourceNotFoundException("Cidade não encontrada"));
+
+		entity.setCity(city);
+
+		entity = repository.save(entity);
+		return new EventDTO(entity);
 	}
 	
 	@Transactional

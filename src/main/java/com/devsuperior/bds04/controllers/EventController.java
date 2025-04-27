@@ -29,24 +29,6 @@ public class EventController {
 	@Autowired
 	private EventService service;
 	
-	/*
-	@GetMapping
-	public ResponseEntity<Page<EventDTO>> findAll(
-			@RequestParam(value = "page", defaultValue = "0") int page,
-			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
-			@RequestParam(value = "direction", defaultValue = "ASC") String direction,
-			@RequestParam(value = "orderBy", defaultValue = "name") String orderBy
-			){
-		
-		
-		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		
-		Page<EventDTO> list = service.findAllPaged(pageRequest);
-		return ResponseEntity.ok().body(list);
-	}
-	*/
-	
-	
 	@GetMapping
 	public ResponseEntity<Page<EventDTO>> findAll(Pageable pageable){
 		Page<EventDTO> list = service.findAllPaged(pageable);

@@ -132,9 +132,11 @@ public class AuthorizationServerConfig {
 
 	@Bean
 	public AuthorizationServerSettings authorizationServerSettings() {
-		return AuthorizationServerSettings.builder().build();
+	    return AuthorizationServerSettings.builder()
+	        .tokenEndpoint("/oauth/token")
+	        .build();
 	}
-
+	
 	@Bean
 	public OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator() {
 		NimbusJwtEncoder jwtEncoder = new NimbusJwtEncoder(jwkSource());
